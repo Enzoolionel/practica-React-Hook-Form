@@ -25,7 +25,7 @@ const RegisterForm = () => {
         className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md"
       >
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-          Registro
+          Registrarse
         </h2>
 
         {/* Nombre */}
