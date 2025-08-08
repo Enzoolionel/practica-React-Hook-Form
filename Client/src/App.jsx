@@ -10,7 +10,7 @@ const App = () => {
         Un turnito
       </h1>
       {isRegister ? <RegisterForm /> : <LoginForm />}
-      <p className="text-center text-slate-800 text-sm mt-4">
+      <p className="text-center text-slate-700 text-sm mt-4">
         {isRegister ? "¿Ya tenés cuenta?" : "¿No tenés cuenta?"}{" "}
         <button
           type="button"
