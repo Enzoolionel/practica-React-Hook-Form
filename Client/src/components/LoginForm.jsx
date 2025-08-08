@@ -1,4 +1,7 @@
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
+import { loginAdmin } from '../api/admin.api.js';
+
+import { useNavigate } from 'react-router';
 
 const LoginForm = () => {
   const {
@@ -6,9 +9,17 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await loginAdmin(data);
+
+      if (!res.user.isAuthenticated) return;
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error en autenticación', error);
+    }
   };
 
   return (
@@ -33,8 +44,8 @@ const LoginForm = () => {
           id="email"
           name="email"
           className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          {...register("email", {
-            required: "Email requerido",
+          {...register('email', {
+            required: 'Email requerido',
           })}
         />
         {errors.email && (
@@ -55,8 +66,8 @@ const LoginForm = () => {
           id="password"
           name="password"
           className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          {...register("password", {
-            required: "Contraseña requerida",
+          {...register('password', {
+            required: 'Contraseña requerida',
           })}
         />
         {errors.password && (

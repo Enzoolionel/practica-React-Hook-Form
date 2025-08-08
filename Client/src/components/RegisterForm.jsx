@@ -1,5 +1,6 @@
-import { useForm } from "react-hook-form";
-import PasswordStrengthIndicator from "./PasswordStrengthIndicator";
+import { useForm } from 'react-hook-form';
+import PasswordStrengthIndicator from './PasswordStrengthIndicator';
+import { createAdmin } from '../api/admin.api';
 
 const RegisterForm = () => {
   const {
@@ -7,15 +8,16 @@ const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    reset,
+    // reset,
   } = useForm();
 
-  const password = watch("password", "");
-  const repetirPassword = watch("repetirPassword", "");
+  const password = watch('password', '');
+  const repetirPassword = watch('repetirPassword', '');
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data) => {
+    let res = await createAdmin(data);
+    // reset();
+    console.log(res);
   };
 
   return (
@@ -40,9 +42,9 @@ const RegisterForm = () => {
             type="text"
             id="fullName"
             className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("nombre", {
-              required: { value: true, message: "Nombre es requerido" },
-              minLength: { value: 3, message: "Nombre demasiado corto" },
+            {...register('nombre', {
+              required: { value: true, message: 'Nombre es requerido' },
+              minLength: { value: 3, message: 'Nombre demasiado corto' },
             })}
           />
           {errors.nombre && (
@@ -62,11 +64,11 @@ const RegisterForm = () => {
             type="text"
             id="email"
             className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("email", {
-              required: { value: true, message: "Email es requerido" },
+            {...register('email', {
+              required: { value: true, message: 'Email es requerido' },
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Correo no válido",
+                message: 'Correo no válido',
               },
             })}
           />
@@ -87,9 +89,9 @@ const RegisterForm = () => {
             type="password"
             id="password"
             className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("password", {
-              required: { value: true, message: "Password es requerido" },
-              minLength: { value: 8, message: "Password demasiado corto" },
+            {...register('password', {
+              required: { value: true, message: 'Password es requerido' },
+              minLength: { value: 8, message: 'Password demasiado corto' },
             })}
           />
           {errors.password && (
@@ -111,17 +113,12 @@ const RegisterForm = () => {
             type="password"
             id="repetirPassword"
             className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("repetirPassword", {
-              required: { value: true, message: "Password requerido" },
+            {...register('repetirPassword', {
+              required: { value: true, message: 'Password requerido' },
               validate: (value) =>
-                value === password || "El password no coincide",
+                password === value || 'El password no coincide',
             })}
           />
-          {errors.repetirPassword && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.repetirPassword.message}
-            </p>
-          )}
         </div>
 
         <button
